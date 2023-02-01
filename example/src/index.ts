@@ -2,9 +2,9 @@ import * as Sentry from '@sentry/node';
 import { Integrations } from '@sentry/tracing';
 import express from 'express';
 import '@sentry/tracing'; // don't forget to import the tracing package as well
-import { waitFor } from './utils';
-import { MainService } from './services/MainService';
 import { registerSentryInstance } from 'sentry-traced';
+import { MainService } from './services/MainService';
+import { waitFor } from './utils';
 
 const app = express();
 const port = 3000;

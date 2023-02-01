@@ -1,9 +1,8 @@
-import utils from 'util';
 import Sentry from '@sentry/node';
 import { getSentryInstance } from './utils';
+import utils from 'util';
 import 'reflect-metadata';
 const sentryParamsMetadataKey = Symbol('sentryParams');
-const sentryUserMetadataKey = Symbol('sentryUser');
 type SentryTracedParamsIndex = number[];
 
 interface ISentryTracedParams {
@@ -22,13 +21,10 @@ const generateSpanContext = (
   options?: ISentryTracedParams,
 ) => {
   const { className, methodName, args, sentryParams } = metadata;
-  const argumentsStringList =
-    `(${
-    new Array(args.length)
-      .fill(0)
-      .map((_, index) => (sentryParams.includes(index) ? args[index] : '_'))
-      .join(',')
-    })`;
+  const argumentsStringList = `(${new Array(args.length)
+    .fill(0)
+    .map((_, index) => (sentryParams.includes(index) ? args[index] : '_'))
+    .join(',')})`;
   const op = options?.op || `${className}#${methodName}${argumentsStringList}`;
   const description =
     options?.description ||
@@ -54,7 +50,7 @@ export const SentryTraced = (options?: ISentryTracedParams) => {
       const className = this.constructor.name;
       const methodName = propertyKey;
       const sentryClient = getSentryInstance();
-      let sentryParams: SentryTracedParamsIndex = Reflect.getOwnMetadata(
+      const sentryParams: SentryTracedParamsIndex = Reflect.getOwnMetadata(
         sentryParamsMetadataKey,
         target,
         methodName,
@@ -136,5 +132,3 @@ export function SentryParam(
     propertyKey,
   );
 }
-
-// Rainny is a person 
