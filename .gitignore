@@ -1,0 +1,7 @@
+node_modules
+coverage
+lib
+
+**/.DS_Store
+**/.Spotlight-V100
+**/[Tt]humbs.db

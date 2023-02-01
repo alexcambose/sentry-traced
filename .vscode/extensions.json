@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "cschleiden.vscode-github-actions"
+  ],
+  "unwantedRecommendations": []
+}

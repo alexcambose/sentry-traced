@@ -1,0 +1,13 @@
+{
+  "extends": "@jessety",
+  "rules": {
+    "linebreak-style": ["warn", "unix"]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.{ts,js,cjs,mjs}"],
+      "env": { "jest": true },
+      "rules": { "no-console": "warn" }
+    }
+  ]
+}
