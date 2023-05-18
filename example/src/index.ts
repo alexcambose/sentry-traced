@@ -2,8 +2,8 @@ import * as Sentry from '@sentry/node';
 import { Integrations } from '@sentry/tracing';
 import express from 'express';
 import '@sentry/tracing'; // don't forget to import the tracing package as well
-import { registerSentryInstance } from 'sentry-traced';
-import { MainService } from './services/MainService';
+import { registerSentryInstance, withTracing } from 'sentry-traced';
+import { MainService, SecondService } from './services/MainService';
 import { waitFor } from './utils';
 
 const app = express();
@@ -26,13 +26,23 @@ registerSentryInstance(Sentry);
  * Initialize main service (dummy service to test decorators)
  */
 const mainService = new MainService();
+const secondService = new SecondService();
 
 app.get('/', async (req, res) => {
-  // const transaction = Sentry.startTransaction({ name: 'testtx' });
   await waitFor(100);
-  await mainService.doSomething('someParam', 'someParam2');
-  // transaction.finish();
+  await mainService.myMethod(123, 'param2', 'param3');
   res.send('Hello World!');
+});
+
+app.get('/other-endpoint', async (req, res) => {
+  await waitFor(100);
+  const sentryTrace = req.headers['sentry-trace'] as string;
+  const result = withTracing(sentryTrace, {
+    op: 'otherEndpoint',
+    description: 'transaction from other endpoint',
+  })(secondService.myMethod)(123, 'param2', 'param3');
+
+  res.send(result);
 });
 
 app.listen(port, () => {

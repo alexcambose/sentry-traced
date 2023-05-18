@@ -106,3 +106,63 @@ class MainService {
 ![Example with params](./example/images/example3.png)
 
 # Distributed tracing
+
+Distributed tracing can be used to follow and analyze the path of requests as they move through various components or services. To achieven
+this, the `sentry-traced` package provides the `withTracing` function that takes in the traceparent data and returns a function that can be used to wrap the code that needs to be traced.
+
+Here's an example:
+
+```ts
+export class MainService {
+  @SentryTraced()
+  async myMethod(
+    @SentryParam param1: number,
+    @SentryParam param2: string,
+    param3: string,
+  ) {
+    // get the current sentry span that surrounds this method
+    const span = Sentry.getCurrentHub().getScope()?.getSpan();
+    // call another endpoint and pass the traceparent header
+    const result = await fetch('http://localhost:3000/other-endpoint', {
+      headers: {
+        'sentry-trace': span.toTraceparent(),
+      },
+    });
+  }
+}
+
+export class SecondService {
+  @SentryTraced()
+  async myMethod(
+    @SentryParam param1: number,
+    @SentryParam param2: string,
+    param3: string,
+  ) {
+    console.log('my second service method called', { param1, param2, param3 });
+  }
+}
+
+const mainService = new MainService();
+const secondService = new SecondService();
+
+app.get('/', async (req, res) => {
+  await mainService.myMethod(123, 'param2', 'param3');
+  res.send('ok!');
+});
+
+app.get('/other-endpoint', async (req, res) => {
+  // get the sentry traceparent header
+  const sentryTrace = req.headers['sentry-trace'] as string;
+  // wrap the second service method with `withTracing` and pass in the traceparent header
+  // additionally you can pass in the operation name and description
+  const result = withTracing(sentryTrace, {
+    op: 'otherEndpoint',
+    description: 'transaction from other endpoint',
+  })(secondService.myMethod)(123, 'param2', 'param3');
+
+  res.send('ok!');
+});
+```
+
+the result transaction will appear in Sentry as follows:
+![Example with params](./example/images/distributedTracing.png)
