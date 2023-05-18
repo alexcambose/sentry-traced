@@ -1,4 +1,4 @@
 import { SentryTraced, SentryParam } from './SentryTraced';
-import { registerSentryInstance } from './utils';
+import { registerSentryInstance, withTracing } from './utils';
 
-export { registerSentryInstance, SentryTraced, SentryParam };
+export { registerSentryInstance, SentryTraced, SentryParam, withTracing };

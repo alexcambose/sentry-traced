@@ -104,3 +104,5 @@ class MainService {
 ```
 
 ![Example with params](./example/images/example3.png)
+
+# Distributed tracing

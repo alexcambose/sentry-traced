@@ -28,6 +28,7 @@
     "clean": "rimraf lib",
     "format": "sort-package-json && prettier --write '**/*.{ts,js,json,yml,md}' && eslint --fix .",
     "lint": "eslint . && ec .",
+    "lint:fix": "eslint . --fix && ec .",
     "prepare": "husky install",
     "release:major": "npm version major --no-commit-hooks && git push --follow-tags",
     "release:minor": "npm version minor --no-commit-hooks && git push --follow-tags",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "@sentry/node": "^7.30.0",
+    "@sentry/tracing": "^7.52.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
@@ -43,6 +45,8 @@
     "@jessety/prettier-config": "^1.1.0",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
     "editorconfig-checker": "^4.0.2",
     "eslint": "^8.1.0",
     "husky": "^7.0.0",

@@ -1,60 +1,26 @@
 import Sentry from '@sentry/node';
-import { getSentryInstance } from './utils';
-import utils from 'util';
 import 'reflect-metadata';
+import utils from 'util';
+import { SentryTracedParams, SentryTracedParamsIndexes } from './types';
+import { generateSpanContext, getSentryInstance } from './utils';
+
 const sentryParamsMetadataKey = Symbol('sentryParams');
-type SentryTracedParamsIndex = number[];
 
-interface ISentryTracedParams {
-  description?: string;
-  op?: string;
-}
-interface IInternalMetadata {
-  methodName: string;
-  className: string;
-  args: unknown[];
-  sentryParams: SentryTracedParamsIndex;
-}
-
-const generateSpanContext = (
-  metadata: IInternalMetadata,
-  options?: ISentryTracedParams,
-) => {
-  const { className, methodName, args, sentryParams } = metadata;
-  const argumentsStringList = `(${new Array(args.length)
-    .fill(0)
-    .map((_, index) => (sentryParams.includes(index) ? args[index] : '_'))
-    .join(',')})`;
-  const op = options?.op || `${className}#${methodName}${argumentsStringList}`;
-  const description =
-    options?.description ||
-    `${className}#${methodName}${argumentsStringList} call`;
-  const descriptionNoArguments =
-    options?.description || `${className}#${methodName}() call`;
-  return {
-    op,
-    description,
-    descriptionNoArguments,
-    data: { args },
-  };
-};
 /**
  * Decorator that automatically generates calls the sentry tracing related functions and registers nested aware metrics
  * @param options Decorator options related to sentry tracing namings
  * @returns Decorated function
  */
-export const SentryTraced = (options?: ISentryTracedParams) => {
+export const SentryTraced = (options?: SentryTracedParams) => {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const original = descriptor.value;
     descriptor.value = function (...args: unknown[]) {
       const className = this.constructor.name;
       const methodName = propertyKey;
       const sentryClient = getSentryInstance();
-      const sentryParams: SentryTracedParamsIndex = Reflect.getOwnMetadata(
-        sentryParamsMetadataKey,
-        target,
-        methodName,
-      );
+      const sentryParams: SentryTracedParamsIndexes =
+        Reflect.getOwnMetadata(sentryParamsMetadataKey, target, methodName) ||
+        [];
       const intermediaryFunction = async () => {
         if (!sentryClient || !sentryClient.getCurrentHub()) {
           throw new Error(`Sentry client not set`);
@@ -115,16 +81,26 @@ export const SentryTraced = (options?: ISentryTracedParams) => {
 };
 
 /**
+ * Decorator that marks a parameter as something to be included in the transaction name
+ * @example
+ * For a function with this signature,
+ * `(param1: number, @SentryParam param2: string)`
+ * doing `Reflect.getOwnMetadata(sentryParamsMetadataKey, target, propertyKey)` will return `[1]`
  *
+ * for
+ * `(@SentryParam param1: number, @SentryParam param2: string)` -> `[1,0]`
  */
 export function SentryParam(
   target: any,
   propertyKey: string | symbol,
   parameterIndex: number,
 ) {
-  const sentryParams: SentryTracedParamsIndex =
+  // get the existing sentry params from the reflection metadata
+  const sentryParams: SentryTracedParamsIndexes =
     Reflect.getOwnMetadata(sentryParamsMetadataKey, target, propertyKey) || [];
+  // add the new parameter index to the the existing list
   sentryParams.push(parameterIndex);
+  // override the metadata with the new list
   Reflect.defineMetadata(
     sentryParamsMetadataKey,
     sentryParams,

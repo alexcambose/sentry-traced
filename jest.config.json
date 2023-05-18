@@ -2,5 +2,6 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "collectCoverage": true,
-  "collectCoverageFrom": ["lib/**/*.js"]
+  "collectCoverageFrom": ["src/**/*.ts"],
+  "modulePathIgnorePatterns": ["<rootDir>/lib/"]
 }
