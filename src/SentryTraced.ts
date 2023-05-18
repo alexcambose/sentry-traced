@@ -12,7 +12,11 @@ const sentryParamsMetadataKey = Symbol('sentryParams');
  * @returns Decorated function
  */
 export const SentryTraced = (options?: SentryTracedParams) => {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (
+    target: object,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ) => {
     const original = descriptor.value;
     descriptor.value = function (...args: unknown[]) {
       const className = this.constructor.name;
