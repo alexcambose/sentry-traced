@@ -17,6 +17,19 @@ export const getSentryInstance = (): typeof Sentry => {
 };
 
 /**
+ * This function is used to check if a value is a promise
+ * @param value Value to check if it's a promise
+ * @returns Returns true if the value is a promise
+ */
+export const isPromise = (value: any): boolean => {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    typeof value.then === 'function'
+  );
+};
+
+/**
  * The data the Sentry needs to generate a span context
  * @param metadata Internal metadata used to generate the span context. It contains the class name, method name, arguments and the sentry params.
  * @param options Options related to the span context (eg. methodName, className)

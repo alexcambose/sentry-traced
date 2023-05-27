@@ -1,8 +1,7 @@
 import Sentry from '@sentry/node';
 import 'reflect-metadata';
-import utils from 'util';
 import { SentryTracedParams, SentryTracedParamsIndexes } from './types';
-import { generateSpanContext, getSentryInstance } from './utils';
+import { generateSpanContext, getSentryInstance, isPromise } from './utils';
 
 const sentryParamsMetadataKey = Symbol('sentryParams');
 
@@ -55,7 +54,7 @@ export const SentryTraced = (options?: SentryTracedParams) => {
         // call the function -> if the function is also annotated it will basically "recursively" create spans inside the parent span based on the context that we set
         const resultPromise = original.call(this, ...args);
         // there's a possibility that the function is a normal function or an async one so we need to check for both cases
-        if (utils.types.isPromise(resultPromise)) {
+        if (isPromise(resultPromise)) {
           // in case the function is a promise we need to resolve it and also reset the current context to the parent node for the next sibling function call
           return resultPromise.then((e: any) => {
             sentryClient.configureScope((scope) => {
@@ -72,6 +71,7 @@ export const SentryTraced = (options?: SentryTracedParams) => {
           Sentry.configureScope((scope) => {
             scope.setSpan(transactionOrSpan);
           });
+          newSpan?.finish();
           if (!contextTransaction) {
             transactionOrSpan.finish();
           }
