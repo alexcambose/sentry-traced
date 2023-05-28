@@ -1,14 +1,11 @@
 name: Release
 
-# on:
-#   workflow_run:
-#     workflows: ['Build bump tag']
-#     types:
-#       - completed
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ['Build bump tag']
+    types:
+      - completed
+
 jobs:
   publish-gpr:
     runs-on: ubuntu-latest
