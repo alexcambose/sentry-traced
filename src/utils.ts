@@ -93,7 +93,13 @@ export const withTracing =
     }
     // The request headers sent by your upstream service to your backend.
     const extractedTraceparentData = extractTraceparentData(traceparentData);
-    const { op, description } = generateSpanContext({});
+    const className = functionToCall.constructor.name;
+    const methodName = functionToCall.name;
+    const { op, description } = generateSpanContext({
+      className,
+      methodName,
+      args,
+    });
     const transaction = Sentry.startTransaction({
       op,
       description,
