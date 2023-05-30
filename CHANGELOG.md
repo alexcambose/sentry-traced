@@ -1,3 +1,9 @@
+## 1.1.2 (2023-05-29)
+
+### Fix
+
+- updated withTracing span metadata
+
 ## 1.1.1 (2023-05-27)
 
 ### Fix
