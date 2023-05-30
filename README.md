@@ -1,6 +1,16 @@
 # sentry-traced
 
-## Introduction
+<p align="center">
+      <a href="https://github.com/alexcambose/sentry-traced/actions/workflows/ci.yml">
+      <img src="https://github.com/alexcambose/sentry-traced/actions/workflows/ci.yml/badge.svg"/></a>
+<a href="https://coveralls.io/github/alexcambose/sentry-traced?branch=master"><img alt="Coveralls github" src="https://img.shields.io/coveralls/github/alexcambose/sentry-traced.svg?style=flat-square"></a>
+<a href="https://packagephobia.now.sh/result?p=sentry-traced"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/sentry-traced.svg?style=flat-square"></a>
+<a href="https://gitter.im/alexcambose/sentry-traced"><img alt="Gitter" src="https://img.shields.io/gitter/room/alexcambose/sentry-traced.svg?color=%23B22C5B&style=flat-square"></a>
+<a href="https://github.com/alexcambose/sentry-traced/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/alexcambose/sentry-traced.svg?style=flat-square"></a>
+<a href="https://www.npmjs.com/package/sentry-traced"><img alt="version" src="https://img.shields.io/npm/v/sentry-traced.svg?style=flat-square"></a>
+<a href="https://github.com/alexcambose/sentry-traced/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/github/license/alexcambose/sentry-traced.svg?style=flat-square"></a>
+<img alt="maintenance" src="https://img.shields.io/maintenance/yes/2019.svg?style=flat-square">
+</p>
 
 This package provides a decorator that can be used to annotate class methods with Sentry tracing information. The purpose of this decorator is to simplify the process of adding Sentry error reporting to a Node.js application, by automating the generation of Sentry tracing information for class methods.
 
@@ -9,7 +19,7 @@ This package provides a decorator that can be used to annotate class methods wit
 To install the Sentry decorator package, simply run the following command in your terminal:
 
 ```
-npm install sentry-decorator
+npm install sentry-traced
 ```
 
 ## Usage
@@ -17,7 +27,7 @@ npm install sentry-decorator
 To use the Sentry decorator, you must first import it into your project. You can do this by including the following line of code at the top of your file:
 
 ```ts
-import { SentryTraced } from 'sentry-decorator';
+import { SentryTraced } from 'sentry-traced';
 ```
 
 Next, you can use the `@SentryTraced` decorator to annotate class methods that you want to generate Sentry tracing information for.
@@ -105,7 +115,7 @@ class MainService {
 
 ![Example with params](./example/images/example3.png)
 
-# Distributed tracing
+## Distributed tracing
 
 Distributed tracing can be used to follow and analyze the path of requests as they move through various components or services. To achieven
 this, the `sentry-traced` package provides the `withTracing` function that takes in the traceparent data and returns a function that can be used to wrap the code that needs to be traced.
@@ -166,3 +176,23 @@ app.get('/other-endpoint', async (req, res) => {
 
 the result transaction will appear in Sentry as follows:
 ![Example with params](./example/images/distributedTracing.png)
+
+# Contributing
+
+Contributions are welcome! Please check the contribution guidelines before submitting a pull request.
+
+# Issues
+
+If you encounter any issues or have suggestions, please open an issue.
+
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+Feel free to reach out to me at alexcambose1@gmail.com if you have any questions or need further assistance.
+
+Thanks for using **sentry-traced**!
+
+:star:

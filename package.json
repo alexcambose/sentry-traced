@@ -1,7 +1,29 @@
 {
   "name": "sentry-traced",
   "version": "1.1.1",
-  "description": "",
+  "description": "A package that provides a decorator to annotate class methods with Sentry tracing information.",
+  "keywords": [
+    "Sentry",
+    "tracing",
+    "decorator",
+    "class methods",
+    "error reporting",
+    "Node.js",
+    "application",
+    "automation",
+    "simplification",
+    "logging",
+    "monitoring",
+    "performance",
+    "debugging",
+    "exceptions",
+    "error handling",
+    "instrumentation",
+    "observability",
+    "distributed tracing",
+    "Node.js framework",
+    "backend development"
+  ],
   "homepage": "https://github.com/alexcambose/sentry-traced#readme",
   "bugs": {
     "url": "https://github.com/alexcambose/sentry-traced/issues"
