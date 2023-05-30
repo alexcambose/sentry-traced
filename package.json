@@ -1,7 +1,7 @@
 {
   "name": "sentry-traced",
   "version": "1.1.2",
-  "description": "",
+  "description": "A package that provides a decorator to annotate class methods with Sentry tracing information.",
   "keywords": [
     "Sentry",
     "tracing",
