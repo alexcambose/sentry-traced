@@ -1,7 +1,8 @@
 # sentry-traced
 
+<p align="center"><img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*CWU1u1K5-RtdDtZVobZxSA.png" width="500" height="auto"/></p>
 <p align="center">
-      <a href="https://github.com/alexcambose/sentry-traced/actions/workflows/ci.yml">
+     <a href="https://github.com/alexcambose/sentry-traced/actions/workflows/ci.yml">
       <img src="https://github.com/alexcambose/sentry-traced/actions/workflows/ci.yml/badge.svg"/></a>
 <a href="https://github.com/alexcambose/sentry-traced/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/alexcambose/sentry-traced.svg?style=flat-square"></a>
 <a href="https://www.npmjs.com/package/sentry-traced"><img alt="version" src="https://img.shields.io/npm/v/sentry-traced.svg?style=flat-square"></a>
