@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@sentry/node": "^7.53.1",
-    "@sentry/tracing": "^7.53.1",
+    "@sentry/tracing": "^7.55.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
