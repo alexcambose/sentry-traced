@@ -58,7 +58,7 @@
     "test": "npm run build && jest"
   },
   "dependencies": {
-    "@sentry/node": "^7.53.1",
+    "@sentry/node": "^7.55.2",
     "@sentry/tracing": "^7.53.1",
     "reflect-metadata": "^0.1.13"
   },
